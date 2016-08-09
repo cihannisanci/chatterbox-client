@@ -4,11 +4,14 @@ app.server = 'https://api.parse.com/1/classes/messages';
 var username = 'jack';
 // sessionStorage.setItem('chatContent', 'go');
 
+$(document).ready(function () {
+  app.init();
+  $('#chats').html(sessionStorage.chatContent);
+});
+
 app.init = function() {
-  $(document).ready(function () {
-    $('#main').on('click', '.username', app.addFriend);
-    $('#send').on('submit', '.submit', app.handleSubmit);
-  });
+  $('#main').on('click', '.username', app.addFriend);
+  $('#send').on('submit', '.submit', app.handleSubmit);
 };
 
 app.send = function(message) {
@@ -80,7 +83,6 @@ app.handleSubmit = function(e) {
     roomname: $('select option:selected').val()
   };
   app.addMessage(message);
-  $('#chats').html(sessionStorage[chatContent]);
   // sessionStorage.setItem('chatContent', 'go');
   // $('#chats').html());
   // sessionStorage.setItem();
