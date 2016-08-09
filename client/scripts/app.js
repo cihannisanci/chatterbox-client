@@ -1,16 +1,20 @@
 // YOUR CODE HERE:
 var app = {};
+app.server = 'https://api.parse.com/1/classes/messages';
+var username = 'jack';
 
 app.init = function() {
-
+  $(document).ready(function () {
+    $('#main').on('click', '.username', app.addFriend);
+    $('#send').on('submit', '.submit', app.handleSubmit);
+  });
 };
 
 app.send = function(message) {
   
-
   $.ajax({
   // This is the url you should use to communicate with the parse API server.
-    url: 'https://api.parse.com/1/classes/messages',
+    url: this.server,
     type: 'POST',
     data: JSON.stringify(message),
     contentType: 'application/json',
@@ -24,15 +28,24 @@ app.send = function(message) {
 
 };
 
-app.fetch = function(message) {
+app.fetch = function() {
 
   $.ajax({
-    url: undefined,
-    data: JSON.stringify(message),
+    url: this.server,
     type: 'GET',
-    success: '',
-    dataType: ''
-  });
+    dataType: 'json',
+    success: function(data) {
+      app.update(data);
+    },
+    error: function (data) {
+      console.error('chatterbox: Failed to fetch', data);
+    }
+  });  
+};
+
+app.update = function(data) {
+  console.log(data);
+  // $('#chats').append('<button class="username">' + message.username + '</button>' + ': ' + message.text);
 };
 
 app.clearMessages = function() {
@@ -55,7 +68,30 @@ app.addRoom = function(roomName) {
 
 app.addFriend = function(e) {
   $(e.target).addClass('friend');
+  console.log('go');
 };
 
-$('.username').on('click', app.addFriend(e));
+app.handleSubmit = function(e) {
+  
+  var message = {
+    username: username,
+    text: $('#message').val(),
+    roomname: $('select option:selected').val()
+  };
+
+  app.addMessage(message);
+};
+
+
+ // $(document).ready(function () {
+ //    app.addMessage({
+ //          username: 'Mel Brooks',
+ //          text: 'I didn\'t get a harumph outa that guy.!',
+ //          roomname: 'lobby'
+ //        });
+ //    app.addRoom('d');
+ //  });
+
+
+// $('#send .submit').trigger('submit');
 
