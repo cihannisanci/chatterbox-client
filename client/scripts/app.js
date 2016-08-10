@@ -8,6 +8,7 @@ var mostRecentId = '';
 
 $(document).ready(function () {
   app.init();
+  setInterval(app.fetch, 3000);
 });
 
 app.init = function() {
@@ -50,6 +51,20 @@ app.fetch = function() {
         return;
       }
 
+      // for (var i = 0; i < data.results.length; i++) {
+      //   if (data.results[i].objectId === mostRecentId) {
+      //     console.log(data.results);
+      //     break;
+      //   }
+      //   if ($('select option:selected').val() === data.results[i].roomname) {
+      //     console.log(data.results);
+      //     app.render(data.results[i]);
+      //   } else if (rooms[data.results[i].roomname] === undefined) {
+      //     console.log(data.results);
+      //     app.addRoom(data.results[i].roomname);
+      //   }
+      // }
+
       for (var i = 0; i < data.results.length; i++) {
         if (data.results[i].objectId === mostRecentId) {
           break;
@@ -58,6 +73,9 @@ app.fetch = function() {
           app.render(data.results[i]);
         } else if (rooms[data.results[i].roomname] === undefined) {
           app.addRoom(data.results[i].roomname);
+          app.render(data.results[i], true);
+        } else {
+          app.render(data.results[i], true);
         }
       }
       
@@ -113,7 +131,7 @@ app.addMessage = function(message) {
   app.render(message);
 };
 
-app.render = function(message) {
+app.render = function(message, bool) {
   if (friends.includes(message.username)) {
     var $username = $('<a href="#" class="username friend">');
   } else {
@@ -123,10 +141,19 @@ app.render = function(message) {
   $username.text(message.username);
   var $mess = $('<span>');
   $mess.text(message.text);
-  $('#chats').append($username);
-  $('#chats').append(': ');
-  $('#chats').append($mess);
-  $('#chats').append('<br>');
+  if (bool === true) {
+    $('#test').html('');
+    $('#test').append($username);
+    $('#test').append(': ');
+    $('#test').append($mess);
+    $('#test').append('<br>');
+    rooms[message.roomname] += $('#test').html();
+  } else {
+    $('#chats').append($username);
+    $('#chats').append(': ');
+    $('#chats').append($mess);
+    $('#chats').append('<br>');
+  }
 };
 
 app.addRoom = function(roomName) {

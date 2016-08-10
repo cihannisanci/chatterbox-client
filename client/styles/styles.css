@@ -14,6 +14,9 @@ body {
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
 }
+#test {
+  display: none;   
+}
 
 #chats {
   width: 400px;
@@ -91,4 +94,6 @@ form input[type=text] {
     color: #fff;
     background-color: #0090da;
 }
+
+
 
