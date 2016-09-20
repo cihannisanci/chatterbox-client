@@ -7,15 +7,26 @@
 
     <!-- dependencies -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
     <!-- your scripts -->
-    <script src="env/config.js"></script>
+    <script src="env/config.example.js"></script>
     <script src="scripts/app.js"></script>
   </head>
   <body>
     <div id="main">
       <h1>chatterbox</h1>
       <!-- Your HTML goes here! -->
+      <select id='roomSelect'>
+        <option class="roomOption">New Room...</option>
+        <option class="roomOption" value = "Lobby" selected>Lobby</option>
+      </select>
+      <form action="#" id="send" method="post">
+        <input type="text" name="message" id="message"/>
+        <input type="submit" name="submit" class="submit"/>
+      </form>
+      <div id="chats"></div>
+      <div id="test"></div>
     </div>
-    <div id="chats"></div>
+
   </body>
 </html>
